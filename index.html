@@ -25,19 +25,48 @@
                 <form>
                     <br><br>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="searchInputField" 
-                        placeholder="Search for tagged posts.." style="width: 50%; height: 50px; font-size: 20px;">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" id="searchInputField" 
+                                placeholder="Search for tagged posts.." style="height: 50px; font-size: 20px; display: inline;">
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn btn-primary" type="button" id="searchButton" onclick="getTaggedPost()" 
+                                style="height: 50px; width: 50px;"><span class="glyphicon glyphicon-arrow-right"></span></button>
+                            </div>
+                        </div>
                     </div>
                 </form>
+                <br>
+            </div>
+            <div class="row" id="results">
             </div>
         </div>
         <script>
-            let searchInputField = document.getElementById('searchInputField');
-
-            searchInputField.addEventListener('keyup', getTaggedPost);
+            let searchButton = $('#searchButton');
 
             function getTaggedPost() {
                 let searchInput = document.getElementById('searchInputField').value;
+                console.log(`Searching for ${searchInput}`);
+                $.ajax({
+                    url: `http://api.tumblr.com/v2/tagged?tag=${searchInput}&api_key=O0GrIgl5gKwiP9qz0xb09fuvjsASDzDSuHPqdH2fBD71WLNeTD&limit=10`,
+                    dataType: 'jsonp',
+                    success: (response) => {
+                        console.log(response);
+                        if (response.meta.status === 200) {
+                            $('#results').empty();
+                            const content = response.response;
+                            for (var i = 0; i < content.length; ++i) {
+                                const postItem = content[i];
+                                $('#results').append(`<div class="row"><div class="col-lg-12"><h4>Blog : ${postItem.blog_name}</h4>
+                                    <h6>${postItem.date}</h6><h5>${postItem.body}</h5></div></div>`);
+                            }
+                        } else {
+                            $('#results').empty();
+                            $('#results').append("<h3 class='alert alert-danger'>[-] An error occurred</h3>");
+                        }
+                    }
+                })
             }
         </script>
     </body>
