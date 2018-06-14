@@ -20,4 +20,23 @@ img#avatar {
 #searchButton {
     height: 50px;
     width: 50px;
+    background: #35465C;
+    color: white;
+}
+
+#searchButton:hover {
+    background: #5d6a7c;
+    color: white;
+}
+
+#loginButton{
+    background: #35465C; 
+    color: white; 
+    font-weight: 900;
+    height: 50px;
+}
+
+#loginButton:hover {
+    background: #5d6a7c;
+    color: white;
 }

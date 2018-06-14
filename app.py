@@ -1,8 +1,9 @@
-from flask import Flask, render_template, jsonify, url_for, redirect
+from flask import Flask, render_template, jsonify, url_for, redirect, session
 import requests
 import json
 
 app = Flask(__name__)
+app.secret_key = 'super_secret_string'
 API_KEY = 'O0GrIgl5gKwiP9qz0xb09fuvjsASDzDSuHPqdH2fBD71WLNeTD'
 
 @app.route('/')
